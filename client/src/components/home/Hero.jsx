@@ -317,7 +317,7 @@ const Hero = () => {
             id="logo-container"
           >
             {companiesLogo.map((company, index) => (
-              <React.Fragment key={index}>{company.logo}</React.Fragment>
+              <Fragment key={index}>{company.logo}</Fragment>
             ))}
           </div>
         </div>
