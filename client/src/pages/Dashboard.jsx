@@ -40,6 +40,20 @@ const Dashboard = () => {
     navigate(`/app/builder/res123`);
   };
 
+  const editTitle = async (event) => {
+    event.preventDefault();
+  };
+
+  const deleteResume = async (resumeId) => {
+    const deleteConfirmation = window.confirm(
+      "Are you sure you want to delete this resumé?"
+    );
+
+    if (deleteConfirmation) {
+      setResumes((prev) => prev.filter((resume) => resume._id !== resumeId));
+    }
+  };
+
   useEffect(() => {
     loadResumes();
   }, []);
@@ -100,9 +114,21 @@ const Dashboard = () => {
                 >
                   Updated On {new Date(resume.updatedAt).toLocaleDateString()}
                 </p>
-                <div className="absolute top-1 right-1 group-hover:flex items-center hidden">
-                  <TrashIcon className="size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors" />
-                  <PencilIcon className="size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors" />
+                <div
+                  className="absolute top-1 right-1 group-hover:flex items-center hidden"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <TrashIcon
+                    className="size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors"
+                    onClick={() => deleteResume(resume._id)}
+                  />
+                  <PencilIcon
+                    className="size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors"
+                    onClick={() => {
+                      setEditResumeId(resume._id);
+                      setTitle(resume.title);
+                    }}
+                  />
                 </div>
               </button>
             );
@@ -140,6 +166,7 @@ const Dashboard = () => {
             </div>
           </form>
         )}
+
         {showUploadResume && (
           <form
             onSubmit={uploadResume}
@@ -191,6 +218,39 @@ const Dashboard = () => {
                 className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                 onClick={() => {
                   setShowUploadResume(false);
+                  setTitle("");
+                }}
+              />
+            </div>
+          </form>
+        )}
+
+        {editResumeId && (
+          <form
+            onSubmit={editTitle}
+            onClick={() => setEditResumeId("")}
+            className="fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center"
+          >
+            <div
+              className="relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <h2 className="text-xl font-bold mb-4">Edit Resumé Title</h2>
+              <input
+                type="text"
+                placeholder="Enter Resumé Title"
+                onChange={(event) => setTitle(event.target.value)}
+                value={title}
+                className="w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600"
+                required
+              />
+              <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+                Update
+              </button>
+              <XIcon
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                onClick={() => {
+                  setEditResumeId("");
                   setTitle("");
                 }}
               />
