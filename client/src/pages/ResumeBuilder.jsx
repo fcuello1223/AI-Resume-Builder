@@ -14,6 +14,8 @@ import {
 
 import { dummyResumeData } from "../assets/assets";
 import PersonalInfoForm from "../components/other/PersonalInfoForm";
+import ResumePreview from "../components/other/ResumePreview";
+import TemplateSelector from "../components/other/TemplateSelector";
 
 const ResumeBuilder = () => {
   const { resumeId } = useParams();
@@ -22,7 +24,7 @@ const ResumeBuilder = () => {
     _id: "",
     title: "",
     personalInfo: {},
-    professionalSummary: {},
+    professionalSummary: "",
     experience: [],
     education: [],
     projects: [],
@@ -109,7 +111,14 @@ const ResumeBuilder = () => {
               />
               {/* Section Navigation */}
               <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
-                <div></div>
+                <div className="flex items-center gap-2">
+                  <TemplateSelector
+                    selectedTemplate={resumeData.template}
+                    onChange={(template) =>
+                      setResumeData((prev) => ({ ...prev, template }))
+                    }
+                  />
+                </div>
                 <div className="flex items-center">
                   {activeSectionIndex !== 0 && (
                     <button
@@ -155,7 +164,14 @@ const ResumeBuilder = () => {
             </div>
           </div>
           {/* Right Side (Preview) */}
-          <div></div>
+          <div className="lg:col-span-7 max-lg:mt-6">
+            <div>{/* Buttons */}</div>
+            <ResumePreview
+              data={resumeData}
+              template={resumeData.template}
+              accentColor={resumeData.accentColor}
+            />
+          </div>
         </div>
       </div>
     </div>
