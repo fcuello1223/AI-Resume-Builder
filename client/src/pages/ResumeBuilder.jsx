@@ -16,6 +16,7 @@ import { dummyResumeData } from "../assets/assets";
 import PersonalInfoForm from "../components/other/PersonalInfoForm";
 import ResumePreview from "../components/other/ResumePreview";
 import TemplateSelector from "../components/other/TemplateSelector";
+import ColorPicker from "../components/other/ColorPicker";
 
 const ResumeBuilder = () => {
   const { resumeId } = useParams();
@@ -116,6 +117,15 @@ const ResumeBuilder = () => {
                     selectedTemplate={resumeData.template}
                     onChange={(template) =>
                       setResumeData((prev) => ({ ...prev, template }))
+                    }
+                  />
+                  <ColorPicker
+                    selectedColor={resumeData.accentColor}
+                    onChange={(color) =>
+                      setResumeData((prev) => ({
+                        ...prev,
+                        accentColor: color,
+                      }))
                     }
                   />
                 </div>
