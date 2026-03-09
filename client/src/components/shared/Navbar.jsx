@@ -1,11 +1,17 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
+import { logout } from "../../app/features/authSlice";
+
 const Navbar = () => {
-  const user = { name: "John Doe" };
+  const { user } = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const logoutUser = () => {
     navigate("/");
+    dispatch(logout());
   };
 
   return (
@@ -16,7 +22,10 @@ const Navbar = () => {
         </Link>
         <div className="flex items-center gap-4 text-sm">
           <p>Hi, {user?.name}!</p>
-          <button onClick={logoutUser} className="bg-white hover:bg-slate-50 border border-gray-300 px-7 py-1.5 rounded-full active:scale-95 transition-all">
+          <button
+            onClick={logoutUser}
+            className="bg-white hover:bg-slate-50 border border-gray-300 px-7 py-1.5 rounded-full active:scale-95 transition-all"
+          >
             Log Out
           </button>
         </div>
